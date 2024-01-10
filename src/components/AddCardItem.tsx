@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import Input from "./UI/Input";
 import Loader from "./Loader";
-import { useCreateBoardMutation } from "../store/api/apiSlice";
+import Input from "./UI/Input";
+import Textarea from "./UI/Textarea";
+import { useCreateCardMutation } from "../store/api/apiSlice";
 
-const AddBoardCard = () => {
-  const [createBoard, { isLoading }] = useCreateBoardMutation();
+const AddCardItem = ({ boardId }: { boardId: string | undefined }) => {
+  const [createCard, { isLoading }] = useCreateCardMutation();
   const [disabled, setDisabled] = useState(true);
   const {
     handleSubmit,
@@ -17,6 +18,7 @@ const AddBoardCard = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       title: "",
+      description: "",
     },
   });
 
@@ -29,19 +31,17 @@ const AddBoardCard = () => {
   }, [title]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    createBoard(data.title)
+    createCard({ ...data, status: "TODO", boardId })
       .then((data: any) => {
         setDisabled(true);
         if (data.error) {
           toast.error(data.error.data.message);
         } else {
           reset();
-          toast.success("Board created");
+          toast.success("Card created");
         }
       })
-      .catch((e) => {
-        toast.error("Something went wrong");
-      });
+      .catch((e) => toast.error("Something went wrong"));
   };
 
   if (isLoading) {
@@ -49,14 +49,14 @@ const AddBoardCard = () => {
   }
 
   return (
-    <div className="bg-slate-200 border rounded-md border-slate-400 p-5 text-center min-h-44 flex items-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <Input
-          id="title"
-          label="Board title"
+    <div className="border-t mt-4 pt-1">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Input id="title" label="Title" register={register} errors={errors} />
+        <Textarea
+          id="description"
+          label="Description"
           register={register}
           errors={errors}
-          classNames="bg-slate-300"
         />
         <div className="text-right mt-2">
           <button
@@ -72,4 +72,4 @@ const AddBoardCard = () => {
   );
 };
 
-export default AddBoardCard;
+export default AddCardItem;

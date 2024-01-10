@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Board } from "../../types";
+import { Board, Card } from "../../types";
 
 export const apiSlice = createApi({
   reducerPath: "boardApi",
@@ -45,6 +45,43 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Board", id: arg.id }],
     }),
+    getCardsByBoardId: build.query<Card[], string>({
+      query: (id) => ({
+        url: `card/cards/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Card"],
+      transformResponse: (response: Card[]) => {
+        const cards = response.map((card) => {
+          return { ...card, id: card._id };
+        });
+        return cards;
+      },
+    }),
+    createCard: build.mutation({
+      query: ({ title, description, boardId, status }) => ({
+        url: "card/create",
+        method: "POST",
+        body: { title, description, boardId, status },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Card", id: arg.id }],
+    }),
+    updateCard: build.mutation({
+      query: ({ title, id, description, status }) => ({
+        url: "card/update",
+        method: "PUT",
+        body: { title, id, description, status },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Card", id: arg.id }],
+    }),
+    deleteCard: build.mutation({
+      query: (id) => ({
+        url: "card/delete",
+        method: "DELETE",
+        body: { id },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Card", id: arg.id }],
+    }),
   }),
 });
 
@@ -53,4 +90,8 @@ export const {
   useCreateBoardMutation,
   useUpdateBoardMutation,
   useDeleteBoardMutation,
+  useGetCardsByBoardIdQuery,
+  useCreateCardMutation,
+  useUpdateCardMutation,
+  useDeleteCardMutation,
 } = apiSlice;

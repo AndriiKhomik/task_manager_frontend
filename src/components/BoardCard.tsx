@@ -5,7 +5,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   useDeleteBoardMutation,
   useUpdateBoardMutation,
-} from "../store/board/apiSlice";
+} from "../store/api/apiSlice";
 import Input from "./UI/Input";
 import { Board } from "../types";
 
@@ -35,14 +35,16 @@ const BoardCard = ({ board }: { board: Board }) => {
       return;
     }
 
-    updateBoard({ title: data.title, id: board.id }).then((data: any) => {
-      if (data.error) {
-        toast.error(data.error.data.message);
-        reset();
-      } else {
-        toast.success("Board updated");
-      }
-    });
+    updateBoard({ title: data.title, id: board.id })
+      .then((data: any) => {
+        if (data.error) {
+          toast.error(data.error.data.message);
+          reset();
+        } else {
+          toast.success("Board updated");
+        }
+      })
+      .catch((e) => toast.error("Something went wrong"));
   };
 
   return (
