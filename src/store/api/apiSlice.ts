@@ -72,7 +72,15 @@ export const apiSlice = createApi({
         method: "PUT",
         body: { title, id, description, status },
       }),
-      invalidatesTags: (result, error, arg) => [{ type: "Card", id: arg.id }],
+      invalidatesTags: (result, error, arg) => [{ type: "Card" }],
+    }),
+    updateCardStatus: build.mutation({
+      query: ({ id, status }) => ({
+        url: "card/updateStatus",
+        method: "PATCH",
+        body: { id, status },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Card" }],
     }),
     deleteCard: build.mutation({
       query: (id) => ({
@@ -93,5 +101,6 @@ export const {
   useGetCardsByBoardIdQuery,
   useCreateCardMutation,
   useUpdateCardMutation,
+  useUpdateCardStatusMutation,
   useDeleteCardMutation,
 } = apiSlice;

@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { PiEquals } from "react-icons/pi";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   useDeleteCardMutation,
@@ -11,6 +12,10 @@ import { Card } from "../types";
 const CardItem = ({ card }: { card: Card }) => {
   const [deleteCard] = useDeleteCardMutation();
   const [updateCard] = useUpdateCardMutation();
+
+  const dragStartHandler = (e: React.DragEvent, card: Card) => {
+    e.dataTransfer.setData("text/plain", card.id);
+  };
 
   const {
     handleSubmit,
@@ -44,22 +49,31 @@ const CardItem = ({ card }: { card: Card }) => {
   };
 
   return (
-    <div className="border border-slate-200 rounded-md p-2 mb-4">
-      <form onSubmit={handleSubmit(onSubmit)} onBlur={handleSubmit(onSubmit)}>
-        <Input
-          id="title"
-          register={register}
-          errors={errors}
-          classNames="border-none cursor-pointer"
-        />
-        <Textarea
-          id="description"
-          register={register}
-          errors={errors}
-          placeholder="Description..."
-          classNames="border-none cursor-pointer placeholder:italic"
-        />
-      </form>
+    <div
+      className="border border-slate-200 rounded-md p-2 mb-4"
+      onDragStart={(e) => dragStartHandler(e, card)}
+      draggable={true}
+    >
+      <div className="flex justify-center cursor-pointer">
+        <PiEquals />
+      </div>
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)} onBlur={handleSubmit(onSubmit)}>
+          <Input
+            id="title"
+            register={register}
+            errors={errors}
+            classNames="border-none bg-slate-100"
+          />
+          <Textarea
+            id="description"
+            register={register}
+            errors={errors}
+            placeholder="Description..."
+            classNames="border-none placeholder:italic resize-none min-h-20 bg-slate-100"
+          />
+        </form>
+      </div>
       <div className="text-right">
         <button
           onClick={handleRemove}

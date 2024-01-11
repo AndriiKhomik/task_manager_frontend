@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useGetCardsByBoardIdQuery } from "../store/api/apiSlice";
-import Row from "../components/UI/Row";
+import Column from "../components/UI/Column";
 import CardItem from "../components/CardItem";
 import AddCardItem from "../components/AddCardItem";
 import Loader from "../components/Loader";
@@ -25,28 +26,28 @@ const Board = () => {
 
       <div className="text-center text-2xl font-bold mb-4">Workspace</div>
       <div className="flex flex-col md:flex-row justify-center items-center md:justify-start md:items-start">
-        <Row title="Todo">
+        <Column title="Todo" columnName={PROGRESS_TYPE.TODO}>
           {data
             ?.filter((card) => card.status === PROGRESS_TYPE.TODO)
             .map((card) => (
               <CardItem key={card.id} card={card} />
             ))}
           <AddCardItem boardId={boardId} />
-        </Row>
-        <Row title="In progress">
+        </Column>
+        <Column title="In progress" columnName={PROGRESS_TYPE.IN_PROGRESS}>
           {data
             ?.filter((card) => card.status === PROGRESS_TYPE.IN_PROGRESS)
             .map((card) => (
-              <div key={card.id}>{card.title}</div>
+              <CardItem key={card.id} card={card} />
             ))}
-        </Row>
-        <Row title="Done">
+        </Column>
+        <Column title="Done" columnName={PROGRESS_TYPE.DONE}>
           {data
             ?.filter((card) => card.status === PROGRESS_TYPE.DONE)
             .map((card) => (
-              <div key={card.id}>{card.title}</div>
+              <CardItem key={card.id} card={card} />
             ))}
-        </Row>
+        </Column>
       </div>
     </div>
   );
