@@ -54,7 +54,7 @@ const CardItem = ({ card }: { card: Card }) => {
       onDragStart={(e) => dragStartHandler(e, card)}
       draggable={true}
     >
-      <div className="flex justify-center cursor-pointer">
+      <div className="flex justify-center cursor-grab">
         <PiEquals />
       </div>
       <div>
@@ -63,14 +63,14 @@ const CardItem = ({ card }: { card: Card }) => {
             id="title"
             register={register}
             errors={errors}
-            classNames="border-none bg-slate-100"
+            classNames="border-none bg-slate-100 cursor-pointer"
           />
           <Textarea
             id="description"
             register={register}
             errors={errors}
             placeholder="Description..."
-            classNames="border-none placeholder:italic resize-none min-h-20 bg-slate-100"
+            classNames="border-none placeholder:italic resize-none min-h-20 bg-slate-100 cursor-pointer"
           />
         </form>
       </div>
