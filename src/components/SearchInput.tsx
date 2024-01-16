@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Board } from "../types";
 
-const SearchInput = ({ data }: { data: Board[] | undefined }) => {
-  const [search, setSearch] = useState("");
-  const [dropdown, setDropdown] = useState(false);
+interface SearchInputProps {
+  data: Board[] | undefined;
+}
+
+const SearchInput: FC<SearchInputProps> = ({ data }) => {
+  const [search, setSearch] = useState<string>("");
+  const [dropdown, setDropdown] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleNavigate = (id: string) => {

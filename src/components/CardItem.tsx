@@ -1,3 +1,4 @@
+import { FC } from "react";
 import toast from "react-hot-toast";
 import { PiEquals } from "react-icons/pi";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -9,7 +10,11 @@ import Input from "./UI/Input";
 import Textarea from "./UI/Textarea";
 import { Card } from "../types";
 
-const CardItem = ({ card }: { card: Card }) => {
+interface CardItemProps {
+  card: Card;
+}
+
+const CardItem: FC<CardItemProps> = ({ card }) => {
   const [deleteCard] = useDeleteCardMutation();
   const [updateCard] = useUpdateCardMutation();
 
@@ -36,16 +41,18 @@ const CardItem = ({ card }: { card: Card }) => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    updateCard({ ...data, id: card.id, status: card.status })
-      .then((data: any) => {
-        if (data.error) {
-          toast.error(data.error.data.message);
-          reset();
-        } else {
-          toast.success("Card updated");
-        }
-      })
-      .catch((e) => toast.error("Something went wrong"));
+    if (data.title !== card.title || data.description !== card.description) {
+      updateCard({ ...data, id: card.id, status: card.status })
+        .then((data: any) => {
+          if (data.error) {
+            toast.error(data.error.data.message);
+            reset();
+          } else {
+            toast.success("Card updated");
+          }
+        })
+        .catch((e) => toast.error("Something went wrong"));
+    }
   };
 
   return (

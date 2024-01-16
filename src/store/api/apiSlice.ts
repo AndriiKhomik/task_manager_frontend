@@ -31,17 +31,16 @@ export const apiSlice = createApi({
     }),
     updateBoard: build.mutation({
       query: ({ title, id }) => ({
-        url: "board/update",
+        url: `board/update/${id}`,
         method: "PATCH",
-        body: { title, id },
+        body: { title },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Board", id: arg.id }],
     }),
     deleteBoard: build.mutation({
       query: (id) => ({
-        url: "board/delete",
+        url: `board/delete/${id}`,
         method: "DELETE",
-        body: { id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Board", id: arg.id }],
     }),
@@ -68,25 +67,24 @@ export const apiSlice = createApi({
     }),
     updateCard: build.mutation({
       query: ({ title, id, description, status }) => ({
-        url: "card/update",
+        url: `card/update/${id}`,
         method: "PUT",
-        body: { title, id, description, status },
+        body: { title, description, status },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Card" }],
     }),
     updateCardStatus: build.mutation({
       query: ({ id, status }) => ({
-        url: "card/updateStatus",
+        url: `card/updateStatus/${id}`,
         method: "PATCH",
-        body: { id, status },
+        body: { status },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Card" }],
     }),
     deleteCard: build.mutation({
       query: (id) => ({
-        url: "card/delete",
+        url: `card/delete/${id}`,
         method: "DELETE",
-        body: { id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Card", id: arg.id }],
     }),

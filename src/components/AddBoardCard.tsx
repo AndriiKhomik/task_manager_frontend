@@ -7,7 +7,7 @@ import { useCreateBoardMutation } from "../store/api/apiSlice";
 
 const AddBoardCard = () => {
   const [createBoard, { isLoading }] = useCreateBoardMutation();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState<boolean>(true);
   const {
     handleSubmit,
     register,

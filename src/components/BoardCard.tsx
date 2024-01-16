@@ -1,3 +1,4 @@
+import { FC } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -9,7 +10,11 @@ import {
 import Input from "./UI/Input";
 import { Board } from "../types";
 
-const BoardCard = ({ board }: { board: Board }) => {
+interface BoardCardProps {
+  board: Board;
+}
+
+const BoardCard: FC<BoardCardProps> = ({ board }) => {
   const [updateBoard] = useUpdateBoardMutation();
   const [deleteBoard] = useDeleteBoardMutation();
 

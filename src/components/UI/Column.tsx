@@ -1,15 +1,14 @@
+import { FC } from "react";
 import toast from "react-hot-toast";
 import { useUpdateCardStatusMutation } from "../../store/api/apiSlice";
 
-const Column = ({
-  children,
-  title,
-  columnName,
-}: {
+interface ColumnProps {
   children: React.ReactNode;
   title: string;
   columnName: string;
-}) => {
+}
+
+const Column: FC<ColumnProps> = ({ children, title, columnName }) => {
   const [updateCard] = useUpdateCardStatusMutation();
 
   const handleDragOver = (e: React.DragEvent) => {

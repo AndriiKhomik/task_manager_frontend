@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import Loader from "./Loader";
@@ -6,9 +6,13 @@ import Input from "./UI/Input";
 import Textarea from "./UI/Textarea";
 import { useCreateCardMutation } from "../store/api/apiSlice";
 
-const AddCardItem = ({ boardId }: { boardId: string | undefined }) => {
+interface AddCardItemProps {
+  boardId: string | undefined;
+}
+
+const AddCardItem: FC<AddCardItemProps> = ({ boardId }) => {
   const [createCard, { isLoading }] = useCreateCardMutation();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState<boolean>(true);
   const {
     handleSubmit,
     register,
