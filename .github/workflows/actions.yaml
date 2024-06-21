@@ -33,7 +33,7 @@ jobs:
         run: npm install
 
       - name: Run lint
-        uses: npm run lint
+        run: npm run lint
 
   build:
     runs-on: ubuntu-20.04
