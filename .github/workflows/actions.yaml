@@ -3,7 +3,7 @@ run-name: ${{github.actor}} has triggered the pipeline
 
 on: 
   push:
-      branches: [main]
+      branches: [master]
 
 jobs:
   react-app:
