@@ -5,7 +5,6 @@ export const apiSlice = createApi({
   reducerPath: "boardApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://task-manager-backend-9lp9.onrender.com",
-    // baseUrl: "http://localhost:8000",
   }),
   tagTypes: ["Board", "Card"],
   refetchOnFocus: true,
