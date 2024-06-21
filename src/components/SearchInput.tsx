@@ -23,7 +23,10 @@ const SearchInput: FC<SearchInputProps> = ({ data }) => {
     }, 1000);
   };
 
-  const handleKeydown = (e: React.KeyboardEvent<HTMLLIElement>, id: string) => {
+  const handleKeydown = (
+    e: React.KeyboardEvent<HTMLDivElement>,
+    id: string
+  ) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       handleNavigate(id);
