@@ -1,26 +1,25 @@
 name: Build React app
 run-name: ${{ github.actor }} has triggered the pipeline
 
-on: 
+on:
   push:
     branches: [master, main, dev]
   pull_request:
     branches: [master, main, dev]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-20.04
     strategy:
-      matrix: 
+      matrix:
         node: [16]
-    name: Node ${{ matrix.node }} sample
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
-        with: 
+        with:
           node-version: ${{ matrix.node }}
 
       - name: Cache dependencies
@@ -29,7 +28,35 @@ jobs:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-        
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lint
+        uses: npm run lint
+
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node: [16]
+    needs: lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm install
 
