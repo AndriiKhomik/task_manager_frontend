@@ -1,10 +1,11 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import Loader from "./Loader";
 import Input from "./UI/Input";
 import Textarea from "./UI/Textarea";
 import { useCreateCardMutation } from "../store/api/apiSlice";
+import { ResponseData } from "../types";
 
 interface AddCardItemProps {
   boardId: string | undefined;
@@ -34,9 +35,9 @@ const AddCardItem: FC<AddCardItemProps> = ({ boardId }) => {
     }
   }, [title]);
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    createCard({ ...data, status: "TODO", boardId })
-      .then((data: any) => {
+  const onSubmit: SubmitHandler<FieldValues> = (values) => {
+    createCard({ ...values, status: "TODO", boardId })
+      .then((data: ResponseData) => {
         setDisabled(true);
         if (data.error) {
           toast.error(data.error.data.message);
@@ -45,7 +46,7 @@ const AddCardItem: FC<AddCardItemProps> = ({ boardId }) => {
           toast.success("Card created");
         }
       })
-      .catch((e) => toast.error("Something went wrong"));
+      .catch(() => toast.error("Something went wrong"));
   };
 
   if (isLoading) {

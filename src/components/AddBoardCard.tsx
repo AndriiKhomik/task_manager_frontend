@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import Input from "./UI/Input";
 import Loader from "./Loader";
 import { useCreateBoardMutation } from "../store/api/apiSlice";
+import { ResponseData } from "../types";
 
 const AddBoardCard = () => {
   const [createBoard, { isLoading }] = useCreateBoardMutation();
@@ -28,9 +29,9 @@ const AddBoardCard = () => {
     }
   }, [title]);
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    createBoard(data.title)
-      .then((data: any) => {
+  const onSubmit: SubmitHandler<FieldValues> = (inputValues) => {
+    createBoard(inputValues.title)
+      .then((data: ResponseData) => {
         setDisabled(true);
         if (data.error) {
           toast.error(data.error.data.message);
@@ -39,7 +40,7 @@ const AddBoardCard = () => {
           toast.success("Board created");
         }
       })
-      .catch((e) => {
+      .catch(() => {
         toast.error("Something went wrong");
       });
   };

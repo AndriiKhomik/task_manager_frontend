@@ -1,6 +1,6 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
-import { cn } from "../../utils";
+import cn from "../../utils";
 
 interface InputProps {
   label?: string;

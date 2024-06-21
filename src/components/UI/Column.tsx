@@ -1,6 +1,7 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import toast from "react-hot-toast";
 import { useUpdateCardStatusMutation } from "../../store/api/apiSlice";
+import { ResponseData } from "../../types";
 
 interface ColumnProps {
   children: React.ReactNode;
@@ -20,14 +21,14 @@ const Column: FC<ColumnProps> = ({ children, title, columnName }) => {
 
     const cardId = e.dataTransfer.getData("text/plain");
     updateCard({ id: cardId, status: columnName })
-      .then((data: any) => {
+      .then((data: ResponseData) => {
         if (data.error) {
           toast.error(data.error.data.message);
         } else {
           toast.success("Card updated");
         }
       })
-      .catch((e) => toast.error("Something went wrong"));
+      .catch(() => toast.error("Something went wrong"));
   };
 
   return (

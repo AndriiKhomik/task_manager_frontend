@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import toast from "react-hot-toast";
 import { PiEquals } from "react-icons/pi";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -8,7 +8,7 @@ import {
 } from "../store/api/apiSlice";
 import Input from "./UI/Input";
 import Textarea from "./UI/Textarea";
-import { Card } from "../types";
+import { Card, ResponseData } from "../types";
 
 interface CardItemProps {
   card: Card;
@@ -18,8 +18,8 @@ const CardItem: FC<CardItemProps> = ({ card }) => {
   const [deleteCard] = useDeleteCardMutation();
   const [updateCard] = useUpdateCardMutation();
 
-  const dragStartHandler = (e: React.DragEvent, card: Card) => {
-    e.dataTransfer.setData("text/plain", card.id);
+  const dragStartHandler = (e: React.DragEvent, cardItem: Card) => {
+    e.dataTransfer.setData("text/plain", cardItem.id);
   };
 
   const {
@@ -37,13 +37,16 @@ const CardItem: FC<CardItemProps> = ({ card }) => {
   const handleRemove = () => {
     deleteCard(card.id)
       .then(() => toast.success("Board removed"))
-      .catch((e) => toast.error("Something went wrong"));
+      .catch(() => toast.error("Something went wrong"));
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (data.title !== card.title || data.description !== card.description) {
-      updateCard({ ...data, id: card.id, status: card.status })
-        .then((data: any) => {
+  const onSubmit: SubmitHandler<FieldValues> = (inputValue) => {
+    if (
+      inputValue.title !== card.title ||
+      inputValue.description !== card.description
+    ) {
+      updateCard({ ...inputValue, id: card.id, status: card.status })
+        .then((data: ResponseData) => {
           if (data.error) {
             toast.error(data.error.data.message);
             reset();
@@ -51,7 +54,7 @@ const CardItem: FC<CardItemProps> = ({ card }) => {
             toast.success("Card updated");
           }
         })
-        .catch((e) => toast.error("Something went wrong"));
+        .catch(() => toast.error("Something went wrong"));
     }
   };
 
@@ -59,7 +62,7 @@ const CardItem: FC<CardItemProps> = ({ card }) => {
     <div
       className="border border-slate-200 rounded-md p-2 mb-4"
       onDragStart={(e) => dragStartHandler(e, card)}
-      draggable={true}
+      draggable
     >
       <div className="flex justify-center cursor-grab">
         <PiEquals />
@@ -83,6 +86,7 @@ const CardItem: FC<CardItemProps> = ({ card }) => {
       </div>
       <div className="text-right">
         <button
+          type="button"
           onClick={handleRemove}
           className="text-sm text-white bg-red-400 rounded-md px-2 py-1 hover:bg-red-500 transition mt-2"
         >

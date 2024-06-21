@@ -20,3 +20,14 @@ export const PROGRESS_TYPE = {
   IN_PROGRESS: "IN_PROGRESS",
   DONE: "DONE",
 };
+
+export type ResponseData = {
+  data?: {
+    message: string;
+  };
+  error?: {
+    data: {
+      message: string;
+    };
+  };
+};

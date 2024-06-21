@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import {
@@ -13,7 +14,7 @@ import { PROGRESS_TYPE } from "../types";
 
 const Board = () => {
   const { boardId } = useParams();
-  const { data, isLoading } = useGetCardsByBoardIdQuery(boardId!);
+  const { data, isLoading } = useGetCardsByBoardIdQuery(boardId || "");
   const { data: boards } = useGetBoardsQuery("board");
 
   if (isLoading) {

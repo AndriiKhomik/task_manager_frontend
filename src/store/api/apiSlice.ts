@@ -17,6 +17,7 @@ export const apiSlice = createApi({
       providesTags: ["Board"],
       transformResponse: (response: Board[]) => {
         const boards = response.map((board) => {
+          /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
           return { ...board, id: board._id };
         });
         return boards;
@@ -53,6 +54,7 @@ export const apiSlice = createApi({
       providesTags: ["Card"],
       transformResponse: (response: Card[]) => {
         const cards = response.map((card) => {
+          /* eslint no-underscore-dangle: 0 */
           return { ...card, id: card._id };
         });
         return cards;
@@ -72,7 +74,8 @@ export const apiSlice = createApi({
         method: "PUT",
         body: { title, description, status },
       }),
-      invalidatesTags: (result, error, arg) => [{ type: "Card" }],
+      // invalidatesTags: (result, error, arg) => [{ type: "Card" }],
+      invalidatesTags: () => [{ type: "Card" }],
     }),
     updateCardStatus: build.mutation({
       query: ({ id, status }) => ({
@@ -80,14 +83,14 @@ export const apiSlice = createApi({
         method: "PATCH",
         body: { status },
       }),
-      invalidatesTags: (result, error, arg) => [{ type: "Card" }],
+      invalidatesTags: () => [{ type: "Card" }],
     }),
     deleteCard: build.mutation({
       query: (id) => ({
         url: `card/delete/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, arg) => [{ type: "Card", id: arg.id }],
+      invalidatesTags: (arg) => [{ type: "Card", id: arg.id }],
     }),
   }),
 });

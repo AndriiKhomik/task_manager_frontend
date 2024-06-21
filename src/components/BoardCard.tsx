@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -8,7 +8,7 @@ import {
   useUpdateBoardMutation,
 } from "../store/api/apiSlice";
 import Input from "./UI/Input";
-import { Board } from "../types";
+import { Board, ResponseData } from "../types";
 
 interface BoardCardProps {
   board: Board;
@@ -21,7 +21,7 @@ const BoardCard: FC<BoardCardProps> = ({ board }) => {
   const handleRemove = () => {
     deleteBoard(board.id)
       .then(() => toast.success("Board removed"))
-      .catch((e) => toast.error("Something went wrong"));
+      .catch(() => toast.error("Something went wrong"));
   };
 
   const {
@@ -35,13 +35,13 @@ const BoardCard: FC<BoardCardProps> = ({ board }) => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (data.title === board.title) {
+  const onSubmit: SubmitHandler<FieldValues> = (values) => {
+    if (values.title === board.title) {
       return;
     }
 
-    updateBoard({ title: data.title, id: board.id })
-      .then((data: any) => {
+    updateBoard({ title: values.title, id: board.id })
+      .then((data: ResponseData) => {
         if (data.error) {
           toast.error(data.error.data.message);
           reset();
@@ -49,7 +49,7 @@ const BoardCard: FC<BoardCardProps> = ({ board }) => {
           toast.success("Board updated");
         }
       })
-      .catch((e) => toast.error("Something went wrong"));
+      .catch(() => toast.error("Something went wrong"));
   };
 
   return (
@@ -64,6 +64,7 @@ const BoardCard: FC<BoardCardProps> = ({ board }) => {
       </form>
       <div className="text-right flex justify-end items-center">
         <button
+          type="button"
           className="text-sm text-white bg-red-400 rounded-md px-3 py-1 hover:bg-red-500 transition mr-2"
           onClick={handleRemove}
         >

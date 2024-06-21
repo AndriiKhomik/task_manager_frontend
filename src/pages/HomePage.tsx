@@ -1,3 +1,4 @@
+import React from "react";
 import AddBoardCard from "../components/AddBoardCard";
 import BoardCard from "../components/BoardCard";
 import Loader from "../components/Loader";

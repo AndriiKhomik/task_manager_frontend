@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Board } from "../types";
 
@@ -21,6 +21,13 @@ const SearchInput: FC<SearchInputProps> = ({ data }) => {
     setTimeout(() => {
       setDropdown(true);
     }, 1000);
+  };
+
+  const handleKeydown = (e: React.KeyboardEvent<HTMLLIElement>, id: string) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleNavigate(id);
+    }
   };
 
   const filteredData = data?.filter(
@@ -49,6 +56,7 @@ const SearchInput: FC<SearchInputProps> = ({ data }) => {
               key={board.id}
               className="py-2 px-4 hover:bg-slate-400 hover:text-white transition-colors cursor-pointer"
               onClick={() => handleNavigate(board.id)}
+              onKeyDown={(e) => handleKeydown(e, board.id)}
             >
               {board.title} / {board.id}
             </li>
