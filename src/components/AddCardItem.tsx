@@ -5,7 +5,6 @@ import Loader from "./Loader";
 import Input from "./UI/Input";
 import Textarea from "./UI/Textarea";
 import { useCreateCardMutation } from "../store/api/apiSlice";
-import { ResponseData } from "../types";
 
 interface AddCardItemProps {
   boardId: string | undefined;
@@ -37,7 +36,7 @@ const AddCardItem: FC<AddCardItemProps> = ({ boardId }) => {
 
   const onSubmit: SubmitHandler<FieldValues> = (values) => {
     createCard({ ...values, status: "TODO", boardId })
-      .then((data: ResponseData) => {
+      .then((data: any) => {
         setDisabled(true);
         if (data.error) {
           toast.error(data.error.data.message);

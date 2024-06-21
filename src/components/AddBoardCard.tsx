@@ -4,7 +4,6 @@ import { FieldValues, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import Input from "./UI/Input";
 import Loader from "./Loader";
 import { useCreateBoardMutation } from "../store/api/apiSlice";
-import { ResponseData } from "../types";
 
 const AddBoardCard = () => {
   const [createBoard, { isLoading }] = useCreateBoardMutation();
@@ -31,7 +30,7 @@ const AddBoardCard = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (inputValues) => {
     createBoard(inputValues.title)
-      .then((data: ResponseData) => {
+      .then((data: any) => {
         setDisabled(true);
         if (data.error) {
           toast.error(data.error.data.message);

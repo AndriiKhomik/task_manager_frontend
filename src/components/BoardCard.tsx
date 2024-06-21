@@ -8,7 +8,7 @@ import {
   useUpdateBoardMutation,
 } from "../store/api/apiSlice";
 import Input from "./UI/Input";
-import { Board, ResponseData } from "../types";
+import { Board } from "../types";
 
 interface BoardCardProps {
   board: Board;
@@ -41,7 +41,7 @@ const BoardCard: FC<BoardCardProps> = ({ board }) => {
     }
 
     updateBoard({ title: values.title, id: board.id })
-      .then((data: ResponseData) => {
+      .then((data: any) => {
         if (data.error) {
           toast.error(data.error.data.message);
           reset();

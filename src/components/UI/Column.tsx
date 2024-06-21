@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import toast from "react-hot-toast";
 import { useUpdateCardStatusMutation } from "../../store/api/apiSlice";
-import { ResponseData } from "../../types";
 
 interface ColumnProps {
   children: React.ReactNode;
@@ -21,7 +20,7 @@ const Column: FC<ColumnProps> = ({ children, title, columnName }) => {
 
     const cardId = e.dataTransfer.getData("text/plain");
     updateCard({ id: cardId, status: columnName })
-      .then((data: ResponseData) => {
+      .then((data: any) => {
         if (data.error) {
           toast.error(data.error.data.message);
         } else {

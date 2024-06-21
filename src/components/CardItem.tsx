@@ -8,7 +8,7 @@ import {
 } from "../store/api/apiSlice";
 import Input from "./UI/Input";
 import Textarea from "./UI/Textarea";
-import { Card, ResponseData } from "../types";
+import { Card } from "../types";
 
 interface CardItemProps {
   card: Card;
@@ -46,7 +46,7 @@ const CardItem: FC<CardItemProps> = ({ card }) => {
       inputValue.description !== card.description
     ) {
       updateCard({ ...inputValue, id: card.id, status: card.status })
-        .then((data: ResponseData) => {
+        .then((data: any) => {
           if (data.error) {
             toast.error(data.error.data.message);
             reset();

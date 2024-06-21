@@ -52,13 +52,16 @@ const SearchInput: FC<SearchInputProps> = ({ data }) => {
           id="list"
         >
           {filteredData?.map((board) => (
-            <li
-              key={board.id}
-              className="py-2 px-4 hover:bg-slate-400 hover:text-white transition-colors cursor-pointer"
-              onClick={() => handleNavigate(board.id)}
-              onKeyDown={(e) => handleKeydown(e, board.id)}
-            >
-              {board.title} / {board.id}
+            <li key={board.id}>
+              <div
+                className="py-2 px-4 hover:bg-slate-400 hover:text-white transition-colors cursor-pointer"
+                onClick={() => handleNavigate(board.id)}
+                onKeyDown={(e) => handleKeydown(e, board.id)}
+                role="button"
+                tabIndex={0}
+              >
+                {board.title} / {board.id}
+              </div>
             </li>
           ))}
         </ul>

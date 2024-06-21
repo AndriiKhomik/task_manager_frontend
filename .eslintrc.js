@@ -4,13 +4,13 @@ module.exports = {
     sourceType: "module",
     project: "./tsconfig.json",
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
-    tsconfigRootDir: __dirname
+    tsconfigRootDir: __dirname,
   },
   env: {
     browser: true,
-    es6: true
+    es6: true,
   },
   extends: [
     "airbnb",
@@ -18,12 +18,12 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "prettier/react",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
   ],
   plugins: ["react", "jsx-a11y", "import", "prettier", "@typescript-eslint"],
   globals: {
     IDENTITY_BASE_URL: "readonly",
-    API_BASE_URL: "readonly"
+    API_BASE_URL: "readonly",
   },
   rules: {
     // prettier
@@ -32,6 +32,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-object-literal-type-assertion": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     // v4 changes
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
@@ -51,16 +52,16 @@ module.exports = {
         mjs: "never",
         jsx: "never",
         ts: "never",
-        tsx: "never"
-      }
-    ]
+        tsx: "never",
+      },
+    ],
   },
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]
-      }
+        extensions: [".js", ".ts", ".jsx", ".tsx", ".json"],
+      },
     },
-    "import/extensions": [".js", ".ts", ".mjs", ".jsx", ".tsx"]
-  }
+    "import/extensions": [".js", ".ts", ".mjs", ".jsx", ".tsx"],
+  },
 };
