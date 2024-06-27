@@ -4,8 +4,7 @@ import { Board, Card } from "../../types";
 export const apiSlice = createApi({
   reducerPath: "boardApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://task-manager-backend-9lp9.onrender.com",
-    baseUrl: "http://localhost:8000",
+    baseUrl: process.env.REACT_APP_API_BASE_URL,
   }),
   tagTypes: ["Board", "Card"],
   refetchOnFocus: true,
