@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: andriikhomik/taskify-app:nginx-latest
+    restart: always
+    depends_on:
+      - client
+      - server
+    ports:
+      -"81:80"
+    
+  client:
+    image: andriikhomik/taskify-app:client-latest
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_API_BASE_URL
+
+  server:
+    image: andriikhomik/taskify-app:server-latest
+    environment:
+      - DATABASE_PASSWORD
+      - DATABASE_USER
