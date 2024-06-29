@@ -8,7 +8,7 @@ services:
       - client
       - server
     ports:
-      -"81:80"
+      - "81:80"
     
   client:
     image: andriikhomik/taskify-app:client-latest
