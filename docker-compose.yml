@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   nginx:
@@ -8,16 +8,16 @@ services:
       - client
       - server
     ports:
-      - "81:80"
+      - "80:80"
     
   client:
     image: andriikhomik/taskify-app:client-latest
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_API_BASE_URL
+      - REACT_APP_API_BASE_URL="http://localhost:8000"
 
   server:
     image: andriikhomik/taskify-app:server-latest
     environment:
-      - DATABASE_PASSWORD
-      - DATABASE_USER
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_USER=${DATABASE_USER}
