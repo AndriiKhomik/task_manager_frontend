@@ -15,9 +15,13 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - REACT_APP_API_BASE_URL="http://localhost:8000"
+    ports:
+      - "3000:3000"
 
   server:
     image: andriikhomik/taskify-app:server-latest
     environment:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_USER=${DATABASE_USER}
+    ports:
+      - "8000:8000"
