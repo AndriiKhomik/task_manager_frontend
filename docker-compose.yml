@@ -16,9 +16,6 @@ services:
     image: andriikhomik/taskify-app:client-latest
     env_file:
       - variables.env
-    # environment:
-    #   - CHOKIDAR_USEPOLLING=true
-    #   - REACT_APP_API_BASE_URL=http://localhost:8000
     depends_on:
       - server
     ports:
@@ -28,9 +25,6 @@ services:
 
   server:
     image: andriikhomik/taskify-app:server-latest
-    # environment:
-    #   - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-    #   - DATABASE_USER=${DATABASE_USER}
     env_file:
       - variables.env
     ports:
@@ -40,20 +34,20 @@ services:
 
 networks:
   node-network:
-
-    # Grafana image
-    # version: "3.8"
-    # services:
-    #   grafana:
-    #     image: grafana/grafana:latest
-    #     container_name: grafana
-    #     restart: unless-stopped
-    #     environment:
-    #       - TERM=linux
-    #       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-polystat-panel
-    #     ports:
-    #       - '3000:3000'
-    #     volumes:
-    #       - 'grafana_storage:/var/lib/grafana'
-    # volumes:
-    #   grafana_storage: {}
+    driver: bridge
+  # Grafana image
+  # version: "3.8"
+  # services:
+  #   grafana:
+  #     image: grafana/grafana:latest
+  #     container_name: grafana
+  #     restart: unless-stopped
+  #     environment:
+  #       - TERM=linux
+  #       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-polystat-panel
+  #     ports:
+  #       - '3000:3000'
+  #     volumes:
+  #       - 'grafana_storage:/var/lib/grafana'
+  # volumes:
+  #   grafana_storage: {}
