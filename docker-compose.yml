@@ -3,6 +3,7 @@
 services:
   nginx:
     image: andriikhomik/taskify-app:nginx-latest
+    container_name: nginx
     restart: always
     depends_on:
       - client
@@ -14,17 +15,22 @@ services:
 
   client:
     image: andriikhomik/taskify-app:client-latest
+    container_name: client
     env_file:
       - variables.env
     depends_on:
       - server
     ports:
       - "3000:3000"
+    stdin_open: true
+    tty: true
     networks:
       - node-network
 
   server:
     image: andriikhomik/taskify-app:server-latest
+    container_name: server
+    restart: always
     env_file:
       - variables.env
     ports:
