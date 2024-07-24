@@ -39,6 +39,8 @@ services:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
       - CLIENT_ORIGIN=$CLIENT_ORIGIN
+      - DATABASE_USER=$DATABASE_USER
+      - DATABASE_PASSWORD=$DATABASE_PASSWORD
     networks:
       - node-network
 
