@@ -2,26 +2,29 @@
 
 services:
   nginx:
-    image: andriikhomik/taskify-app:nginx-latest
-    container_name: nginx
-    restart: always
     depends_on:
       - client
       - server
+    image: andriikhomik/taskify-app:nginx-latest
+    container_name: nginx
+    restart: always
     ports:
       - "80:80"
     networks:
       - node-network
 
   client:
-    image: andriikhomik/taskify-app:client-latest
-    container_name: client
-    env_file:
-      - variables.env
     depends_on:
       - server
+    image: andriikhomik/taskify-app:client-latest
+    build: 
+      args:
+        - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
+    container_name: client
+    # env_file:
+    #   - variables.env
     ports:
-      - "3000:3000"
+      - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
     stdin_open: true
     tty: true
     networks:
@@ -31,16 +34,16 @@ services:
     image: andriikhomik/taskify-app:server-latest
     container_name: server
     restart: always
-    env_file:
-      - variables.env
+    env_file: ./.env
     ports:
-      - "8000:8000"
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - CLIENT_ORIGIN=$CLIENT_ORIGIN
     networks:
       - node-network
 
 networks:
   node-network:
-    driver: bridge
   # Grafana image
   # version: "3.8"
   # services:
