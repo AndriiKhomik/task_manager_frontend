@@ -20,9 +20,10 @@ services:
     build: 
       args:
         - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
+    env_file: ./.env
     container_name: client
-    # env_file:
-    #   - variables.env
+    environment:
+      - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
     ports:
       - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
     stdin_open: true
