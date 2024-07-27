@@ -84,9 +84,9 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - /:/rootfs:ro
-      - /run:/run:ro
-      - /sys:/sys:ro
+      - /:/rootfs:ro,rslave
+      - /run:/run:ro,rslave
+      - /sys:/sys:ro,rslave
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     devices:
