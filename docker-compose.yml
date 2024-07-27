@@ -77,22 +77,22 @@ services:
     volumes:
       - /:/host:ro,rslave
 
-  cadvisor:
-    # image: gcr.io/cadvisor/cadvisor:v0.50.0
-    image: google/cadvisor:latest
-    container_name: cadvisor
-    ports:
-      - 8080:8080
-    volumes:
-      - /:/rootfs:ro,rslave
-      - /run:/run:ro,rslave
-      - /sys:/sys:ro,rslave
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-    devices:
-      - /dev/kmsg
-    privileged: true
-    restart: unless-stopped
+  # cadvisor:
+  #   # image: gcr.io/cadvisor/cadvisor:v0.50.0
+  #   image: google/cadvisor:latest
+  #   container_name: cadvisor
+  #   ports:
+  #     - 8080:8080
+  #   volumes:
+  #     - /:/rootfs:ro,rslave
+  #     - /run:/run:ro,rslave
+  #     - /sys:/sys:ro,rslave
+  #     - /var/lib/docker/:/var/lib/docker:ro
+  #     - /dev/disk/:/dev/disk:ro
+  #   devices:
+  #     - /dev/kmsg
+  #   privileged: true
+  #   restart: unless-stopped
   
 volumes:
   prometheus-data:
