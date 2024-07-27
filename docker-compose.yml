@@ -65,6 +65,34 @@ services:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command: 
+      - "--path.rootfs=/host"
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - /:/host:ro,rslave
+
+  cadvisor:
+    # image: gcr.io/cadvisor/cadvisor:v0.50.0
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /run:/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    devices:
+      - /dev/kmsg
+    privileged: true
+    restart: unless-stopped
   
 volumes:
   prometheus-data:
