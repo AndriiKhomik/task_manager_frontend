@@ -1,4 +1,4 @@
-# version: '3.9'
+version: '3.9'
 
 services:
   nginx:
@@ -17,7 +17,7 @@ services:
     depends_on:
       - server
     image: andriikhomik/taskify-app:client-latest
-    build: 
+    build:
       args:
         - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
     env_file: ./.env
@@ -49,17 +49,15 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     restart: unless-stopped
-    network_mode: "host"
     ports:
       - "9090:9090"
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
-    command: 
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    depends_on:
-      - cadvisor
-      - node_exporter
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml' 
+    networks:
+      - node-network
 
   grafana:
     image: grafana/grafana:latest
@@ -69,19 +67,17 @@ services:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
-    depends_on:
-      - prometheus
+    networks:
+      - node-network
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
-    command: 
-      - "--path.rootfs=/host"
-    network_mode: "host"
-    pid: host
     restart: unless-stopped
+    command: "--path.rootfs=/host"
+    network_mode: "host"
     volumes:
-      - /:/host:ro,rslave
+      - /:/host/proc:ro,rslave 
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -90,16 +86,16 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /:/rootfs:ro
-      - /run:/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+      - /:/rootfs:ro,rslave
+      - /run:/run:ro,rslave
+      - /sys:/sys:ro,rslave
+      - /var/lib/docker/:/var/lib/docker:ro,rslave
       - /dev/disk/:/dev/disk:ro
     devices:
       - /dev/kmsg
     privileged: true
     restart: unless-stopped
-  
+
 volumes:
   prometheus-data:
     driver: local
@@ -108,4 +104,3 @@ volumes:
 
 networks:
   node-network:
-
