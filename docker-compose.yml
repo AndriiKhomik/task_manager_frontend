@@ -75,14 +75,16 @@ services:
     container_name: node_exporter
     restart: unless-stopped
     command: "--path.rootfs=/host"
-    network_mode: "host"
+    ports:
+      - "9100:9100"
     volumes:
-      - /:/host/proc:ro,rslave 
+      - /:/host/proc:ro,rslave
+    networks:
+      - node-network
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
-    network_mode: "host"
     ports:
       - "8080:8080"
     volumes:
@@ -95,6 +97,8 @@ services:
       - /dev/kmsg
     privileged: true
     restart: unless-stopped
+    networks:
+      - node-network
 
 volumes:
   prometheus-data:
