@@ -9,10 +9,12 @@ on:
 
 jobs:
   lint:
+    name: Lint Check
     runs-on: ubuntu-20.04
     strategy:
       matrix:
         node: [16]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,11 +38,13 @@ jobs:
         run: npm run lint
 
   build-and-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-20.04
     strategy:
       matrix:
         node: [16]
     needs: lint
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -79,8 +83,10 @@ jobs:
           docker push andriikhomik/taskify-app:client-latest
 
   deploy-nginx:
+    name: Deploy NGINX
     runs-on: ubuntu-20.04
     needs: lint
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
